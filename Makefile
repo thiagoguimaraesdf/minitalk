@@ -13,7 +13,7 @@ $(CLIENT): client.c
 	@gcc -Wall -Wextra -Werror $< -L./libft -lft -o $@
 
 $(SERVER): server.c
-	@gcc -Wall -Wextra -Werror $< -o $@
+	@gcc -Wall -Wextra -Werror $< -L./libft -lft -o $@
 
 clean:
 	@rm -f $(OBJ)
