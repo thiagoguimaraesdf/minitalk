@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 10:49:12 by tguimara          #+#    #+#             */
-/*   Updated: 2021/08/13 10:37:26 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/08/23 14:24:04 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,17 @@ int	send_message(int server_pid, char *mensage)
 	return (1);
 }
 
+void	server_response(int sig_num)
+{
+	if (sig_num == SIGUSR1)
+		printf("signal received by the server");
+}
+
 int	main(int argc, char **argv)
 {
 	int			server_pid;
-
+	struct		sigaction sact;
+	
 	if (argc != 3)
 	{
 		printf("Sorry, client should be executed in the following format:\n");
@@ -51,9 +58,8 @@ int	main(int argc, char **argv)
 	}
 	server_pid = atoi(*(argv + 1));
 	printf("sever_pid:%d\n", server_pid);
-	if (send_message(server_pid, *(argv + 2)) == 1)
-		printf("mensage sent");
-	else
-		printf("some issue ocurred while sending your mensage");
+  	sact.sa_handler = &server_response;
+	sact.sa_flags = SA_RESTART;
+	sigaction(SIGUSR1, &sact, NULL);
 	return (0);
 }

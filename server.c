@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 10:49:10 by tguimara          #+#    #+#             */
-/*   Updated: 2021/08/23 13:21:45 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/08/23 14:23:25 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 
 static t_char cur_char;
 
-void	catch_client(int sig_num)
+void	catch_client_message(int sig_num, siginfo_t *info, void *context)
 {
+	(void)context;
 	char mask = 1 << cur_char.cur_bit;
 	if (cur_char.cur_bit == 7)
 	{
@@ -28,7 +29,8 @@ void	catch_client(int sig_num)
 		if (!cur_char.c)
 			write(1,"\n", 1);
 		cur_char.c = 0;
-		cur_char.cur_bit = 0;	
+		cur_char.cur_bit = 0;
+		kill(info->si_pid, SIGUSR1);
 		return ;
 	}
 	if (sig_num == SIGUSR1)
@@ -49,8 +51,8 @@ int	main(void)
 	cur_char.c = 0;
 	cur_char.cur_bit = 0;	
 	sigemptyset(&mask);
-  	sact.sa_handler = &catch_client;
-	sact.sa_flags = SA_RESTART;
+  	sact.sa_sigaction = catch_client_message;
+	sact.sa_flags = SA_SIGINFO;
 	sact.sa_mask = mask; 
 	sigaction(SIGUSR1, &sact, NULL);
 	sigaction(SIGUSR2, &sact, NULL);
