@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_handle_hexa.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.sp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/12 11:34:26 by tguimara          #+#    #+#             */
-/*   Updated: 2021/08/23 14:57:40 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/08/24 13:39:44 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*convert_hexa(unsigned long long u, char *base)
 	return (hexa_str);
 }
 
-static char 	*ft_toupper_str(char *str)
+static char	*ft_toupper_str(char *str)
 {
 	int	i;
 

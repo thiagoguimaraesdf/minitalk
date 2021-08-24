@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tguimara <tguimara@student.42.sp>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 10:49:10 by tguimara          #+#    #+#             */
-/*   Updated: 2021/08/23 16:31:55 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/08/24 13:20:00 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-static t_char	g_char;
 
 void	catch_client_message(int sig_num, siginfo_t *info, void *context)
 {
@@ -35,6 +33,7 @@ void	catch_client_message(int sig_num, siginfo_t *info, void *context)
 	else
 		g_char.c = ((g_char.c & ~mask) | (0 << g_char.cur_bit));
 	g_char.cur_bit++;
+	kill(info->si_pid, SIGUSR1);
 }
 
 int	main(void)
