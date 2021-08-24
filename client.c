@@ -6,7 +6,7 @@
 /*   By: tguimara <tguimara@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 10:49:12 by tguimara          #+#    #+#             */
-/*   Updated: 2021/08/23 16:31:52 by tguimara         ###   ########.fr       */
+/*   Updated: 2021/08/24 11:45:06 by tguimara         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	send_message(int server_pid, char *mensage)
 			else
 				kill(server_pid, SIGUSR2);
 			current_bit++;
-			usleep(600);
+			usleep(10);
 			*mensage = *mensage >> 1;
 		}
 		mensage++;
@@ -50,8 +50,11 @@ int	main(int argc, char **argv)
 		ft_printf("{client [server_pid] [message]?}\n");
 		return (-1);
 	}
-	server_pid = atoi(*(argv + 1));
+	server_pid = ft_atoi(*(argv + 1));
 	signal(SIGUSR1, server_response);
-	send_message(server_pid, *(argv + 2));
+	if (send_message(server_pid, *(argv + 2)) == 1)
+		exit(1);
+	else
+		exit(-1);
 	return (0);
 }
